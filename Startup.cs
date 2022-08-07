@@ -25,6 +25,8 @@ namespace testapicore
                 o => o.UseNpgsql(Configuration.GetConnectionString("AWSTestDatabase"), 
                 o => o.UseNodaTime())
             );
+
+            services.AddTransient<Services.IAppointmentsService, Services.AppointmentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
