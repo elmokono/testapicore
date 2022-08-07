@@ -7,9 +7,11 @@ namespace testapicore.Models.DummyDataDBInitializer
     {
         public static void Initialize(AWSTestDatabaseDBContext context)
         {
+            context.Database.EnsureDeleted();
+
             //se asegura de que exista la db
             context.Database.EnsureCreated();
-
+            
             // Look for any students.
             if (context.Users.Any())
             {
@@ -28,10 +30,10 @@ namespace testapicore.Models.DummyDataDBInitializer
 
             var users = new User[]
             {
-                new User{ Id=1, FullName="Cosme Fulanito", UserStatus =userStatuses.Single(x => x.Id==1) },
-                new User{ Id=2, FullName="Pollo Viñolo", UserStatus =userStatuses.Single(x => x.Id==1) },
-                new User{ Id=3, FullName="Cabra Belcebu", UserStatus =userStatuses.Single(x => x.Id==2) },
-                new User{ Id=4, FullName="Chivo Berrinche", UserStatus =userStatuses.Single(x => x.Id==99) },
+                new User{ /*Id=1,*/ FullName="Cosme Fulanito", UserStatus =userStatuses.Single(x => x.Id==1) },
+                new User{ /*Id=2,*/ FullName="Pollo Viñolo", UserStatus =userStatuses.Single(x => x.Id==1) },
+                new User{ /*Id=3,*/ FullName="Cabra Belcebu", UserStatus =userStatuses.Single(x => x.Id==2) },
+                new User{ /*Id=4,*/ FullName="Chivo Berrinche", UserStatus =userStatuses.Single(x => x.Id==99) },
             };
 
             foreach (User u in users)
@@ -39,10 +41,10 @@ namespace testapicore.Models.DummyDataDBInitializer
 
             var pacients = new Pacient[]
             {
-                new Pacient{ Id=1, FullName="Paciente 1", NationalId="12345678" },
-                new Pacient{ Id=2, FullName="Paciente 2", NationalId="91011121" },
-                new Pacient{ Id=3, FullName="Paciente 3", NationalId="31415161" },
-                new Pacient{ Id=4, FullName="Paciente 4", NationalId="71819202" },
+                new Pacient{ /*Id=1,*/ FullName="Paciente 1", NationalId="12345678" },
+                new Pacient{ /*Id=2,*/ FullName="Paciente 2", NationalId="91011121" },
+                new Pacient{ /*Id=3,*/ FullName="Paciente 3", NationalId="31415161" },
+                new Pacient{ /*Id=4,*/ FullName="Paciente 4", NationalId="71819202" },
             };
 
             foreach (Pacient u in pacients)
@@ -50,10 +52,10 @@ namespace testapicore.Models.DummyDataDBInitializer
 
             var appointments = new Appointment[]
             {
-                new Appointment{ Id=10, Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=false },
-                new Appointment{ Id=20, Pacient=pacients[1], User=users[1], When=DateTime.Now, Confirmed=true },
-                new Appointment{ Id=30, Pacient=pacients[2], User=users[1], When=DateTime.Now, Confirmed=false },
-                new Appointment{ Id=40, Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=true },
+                new Appointment{ /*Id=10,*/ Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=false },
+                new Appointment{ /*Id=20,*/ Pacient=pacients[1], User=users[1], When=DateTime.Now, Confirmed=true },
+                new Appointment{ /*Id=30,*/ Pacient=pacients[2], User=users[1], When=DateTime.Now, Confirmed=false },
+                new Appointment{ /*Id=40,*/ Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=true },
             };
 
             foreach (Appointment u in appointments)

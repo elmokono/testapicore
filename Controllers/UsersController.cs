@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,12 +11,12 @@ namespace testapicore.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private readonly Models.AWSTestDatabaseDBContext _dbContext;
+        private readonly Services.IUsersService _usersService;
 
-        public UsersController(Models.AWSTestDatabaseDBContext dbContext, ILogger<UsersController> logger)
+        public UsersController(Services.IUsersService usersService, ILogger<UsersController> logger)
         {
             _logger = logger;
-            _dbContext = dbContext;
+            _usersService = usersService;
         }
 
         // GET: api/<UsersController>
@@ -27,7 +25,7 @@ namespace testapicore.Controllers
         {
             try
             {
-                return _dbContext.Users.Include(i => i.UserStatus);
+                return _usersService.GetAll();
             }
             catch (System.Exception)
             {
@@ -42,7 +40,7 @@ namespace testapicore.Controllers
         {
             try
             {
-                return _dbContext.Users.Include(i => i.UserStatus).Single(x => x.Id == id);
+                return _usersService.GetById(id);
             }
             catch (System.Exception)
             {

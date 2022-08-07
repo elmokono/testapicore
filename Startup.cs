@@ -27,6 +27,7 @@ namespace testapicore
             );
 
             services.AddTransient<Services.IAppointmentsService, Services.AppointmentsService>();
+            services.AddTransient<Services.IUsersService, Services.UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
