@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +11,7 @@ namespace testapicore.Services
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
         void CompleteById(int id);
+        Appointment New(Appointment appointment);
     }
 
     public class AppointmentsService : IAppointmentsService
@@ -42,6 +42,16 @@ namespace testapicore.Services
                 .Include(i => i.User)
                 .Include(i => i.Pacient)
                 .SingleOrDefault(i => i.Id == id);
+        }
+
+        public Appointment New(Appointment appointment)
+        {
+            appointment.User = _dbContext.Users.Single(x => x.Id == appointment.User.Id);
+            appointment.Pacient = _dbContext.Pacients.Single(x => x.Id == appointment.Pacient.Id);
+
+            var newAppointment = _dbContext.Add(appointment);
+            _dbContext.SaveChanges();
+            return newAppointment.Entity;
         }
 
         public void CompleteById(int id)

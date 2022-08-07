@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,13 +11,11 @@ namespace testapicore.Controllers
     public class AppointmentsController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private readonly Models.AWSTestDatabaseDBContext _dbContext;
         private readonly Services.IAppointmentsService _appointmentsService;
 
-        public AppointmentsController(Models.AWSTestDatabaseDBContext dbContext, Services.IAppointmentsService appointmentsService, ILogger<UsersController> logger)
+        public AppointmentsController(Services.IAppointmentsService appointmentsService, ILogger<UsersController> logger)
         {
             _logger = logger;
-            _dbContext = dbContext;
             _appointmentsService = appointmentsService;
         }
 
@@ -69,8 +65,22 @@ namespace testapicore.Controllers
             }
         }
 
-        /*
         // POST api/<AppointmentsController>
+        [HttpPost]
+        public ActionResult<Models.Appointment> Post([FromBody] Models.Appointment value)
+        {
+            try
+            {                
+                return _appointmentsService.New(value);
+            }
+            catch (System.Exception)
+            {
+                _logger.Log(LogLevel.Error, "Cannot create Appointment");
+                throw;
+            }
+        }
+
+        /*
         [HttpPost]
         public void Post([FromBody] string value)
         {
