@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace testapicore
+namespace testapinet6
 {
     public class Startup
     {
@@ -25,7 +20,15 @@ namespace testapicore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<Models.myAppDbContext>();
+            
+            services.AddDbContext<Models.AWSTestDatabaseDBContext>(
+                o => o.UseNpgsql(Configuration.GetConnectionString("AWSTestDatabase"), 
+                o => o.UseNodaTime())
+            );
+
+            services.AddTransient<Services.IAppointmentsService, Services.AppointmentsService>();
+            services.AddTransient<Services.IUsersService, Services.UsersService>();
+            services.AddTransient<Services.IPacientsService, Services.PacientsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
