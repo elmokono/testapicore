@@ -12,6 +12,7 @@ namespace testapicore.Services
         Appointment GetById(int id);
         void CompleteById(int id);
         Appointment New(Appointment appointment);
+        IEnumerable<Appointment> GetByUserId(int id);
     }
 
     public class AppointmentsService : IAppointmentsService
@@ -42,6 +43,16 @@ namespace testapicore.Services
                 .Include(i => i.User)
                 .Include(i => i.Pacient)
                 .SingleOrDefault(i => i.Id == id);
+        }
+
+        public IEnumerable<Appointment> GetByUserId(int id)
+        {
+            _logger.LogInformation("reading appointment for user {0}", id);
+
+            return _dbContext.Appointments
+                .Include(i => i.User)
+                .Include(i => i.Pacient)
+                .Where(i => i.User.Id == id);
         }
 
         public Appointment New(Appointment appointment)

@@ -49,8 +49,23 @@ namespace testapicore.Controllers
             }
         }
 
-        // PUT api/<AppointmentsController>/5
-        [HttpGet("complete/{id}")]
+        // GET api/<AppointmentsController>/5
+        [HttpGet("byuser/{id}")]
+        public IEnumerable<Models.Appointment> GetByUser(int id)
+        {
+            try
+            {
+                return _appointmentsService.GetByUserId(id);
+            }
+            catch (System.Exception)
+            {
+                _logger.Log(LogLevel.Error, "Cannot read Appointment for user {0}", id);
+                return new List<Models.Appointment>();
+            }
+        }
+
+        // PUT api/<AppointmentsController>/complete/5
+        [HttpPut("complete/{id}")]
         public ActionResult<Models.Appointment> Complete(int id)
         {
             try

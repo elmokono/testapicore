@@ -30,10 +30,10 @@ namespace testapicore.Models.DummyDataDBInitializer
 
             var users = new User[]
             {
-                new User{ /*Id=1,*/ FullName="Cosme Fulanito", UserStatus =userStatuses.Single(x => x.Id==1) },
-                new User{ /*Id=2,*/ FullName="Pollo Viñolo", UserStatus =userStatuses.Single(x => x.Id==1) },
-                new User{ /*Id=3,*/ FullName="Cabra Belcebu", UserStatus =userStatuses.Single(x => x.Id==2) },
-                new User{ /*Id=4,*/ FullName="Chivo Berrinche", UserStatus =userStatuses.Single(x => x.Id==99) },
+                new User{ /*Id=1,*/ FullName="Cosme Fulanito", Email="Cosme.Fulanito@user.com", UserStatus =userStatuses.Single(x => x.Id==1) },
+                new User{ /*Id=2,*/ FullName="Pollo Viñolo", Email="Pollo.Vinolo@user.com", UserStatus =userStatuses.Single(x => x.Id==1) },
+                new User{ /*Id=3,*/ FullName="Cabra Belcebu", Email="Cabra.Belcebu@user.com", UserStatus =userStatuses.Single(x => x.Id==2) },
+                new User{ /*Id=4,*/ FullName="Chivo Berrinche", Email="Chivo.Berrinche@user.com", UserStatus =userStatuses.Single(x => x.Id==99) },
             };
 
             foreach (User u in users)
