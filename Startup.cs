@@ -22,7 +22,8 @@ namespace testapicore
             services.AddControllers();
             
             services.AddDbContext<Models.AWSTestDatabaseDBContext>(
-                opt => opt.UseNpgsql(Configuration.GetConnectionString("AWSTestDatabase"))
+                o => o.UseNpgsql(Configuration.GetConnectionString("AWSTestDatabase"), 
+                o => o.UseNodaTime())
             );
         }
 

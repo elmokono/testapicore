@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace testapicore.Models.DummyDataDBInitializer
 {
@@ -35,6 +36,28 @@ namespace testapicore.Models.DummyDataDBInitializer
 
             foreach (User u in users)
                 context.Users.Add(u);
+
+            var pacients = new Pacient[]
+            {
+                new Pacient{ Id=1, FullName="Paciente 1", NationalId="12345678" },
+                new Pacient{ Id=2, FullName="Paciente 2", NationalId="91011121" },
+                new Pacient{ Id=3, FullName="Paciente 3", NationalId="31415161" },
+                new Pacient{ Id=4, FullName="Paciente 4", NationalId="71819202" },
+            };
+
+            foreach (Pacient u in pacients)
+                context.Pacients.Add(u);
+
+            var appointments = new Appointment[]
+            {
+                new Appointment{ Id=10, Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=false },
+                new Appointment{ Id=20, Pacient=pacients[1], User=users[1], When=DateTime.Now, Confirmed=true },
+                new Appointment{ Id=30, Pacient=pacients[2], User=users[1], When=DateTime.Now, Confirmed=false },
+                new Appointment{ Id=40, Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=true },
+            };
+
+            foreach (Appointment u in appointments)
+                context.Appointments.Add(u);
 
             context.SaveChanges();
 

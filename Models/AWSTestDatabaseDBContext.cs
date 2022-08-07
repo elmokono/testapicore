@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace testapicore.Models
 {
@@ -6,6 +8,8 @@ namespace testapicore.Models
     {
         public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Pacient> Pacients { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
         public AWSTestDatabaseDBContext(DbContextOptions<AWSTestDatabaseDBContext> options) : base(options)
         {
@@ -34,5 +38,22 @@ namespace testapicore.Models
         public int Id { get; set; }
         public string FullName { get; set; }
         public UserStatus UserStatus { get; set; }
+    }
+
+    public class Pacient
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+        public string NationalId { get; set; }
+    }
+
+    public class Appointment
+    {
+        public int Id { get; set; }
+        public User User { get; set; }
+        public Pacient Pacient { get; set; }
+        [Column(TypeName = "timestamp")]
+        public DateTime When { get; set; }
+        public bool Confirmed { get; set; }
     }
 }
