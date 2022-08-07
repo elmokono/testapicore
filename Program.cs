@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace testapinet6
+namespace testapicore31
 {
     public class Program
     {

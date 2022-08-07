@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace testapinet6.Models
+namespace testapicore31.Models
 {
     public class AWSTestDatabaseDBContext : DbContext
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace testapinet6.Models.DummyDataDBInitializer
+namespace testapicore31.Models.DummyDataDBInitializer
 {
     public class DbInitializer
     {
