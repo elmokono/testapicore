@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using testapicore.Models;
+using testapinet6.Models;
 
-namespace testapicore.Services
+namespace testapinet6.Services
 {
     public interface IUsersService
     {
