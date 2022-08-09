@@ -41,6 +41,7 @@ namespace testapicore31.Services
 
         public Pacient New(Pacient pacient)
         {
+            pacient.MedicalPlan = _dbContext.MedicalPlans.Single(x => x.Id == pacient.MedicalPlan.Id);
             var newPacient = _dbContext.Add(pacient);
             _dbContext.SaveChanges();
             return newPacient.Entity;

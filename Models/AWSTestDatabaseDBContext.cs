@@ -9,6 +9,7 @@ namespace testapicore31.Models
         public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Pacient> Pacients { get; set; }
+        public DbSet<MedicalPlan> MedicalPlans { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
 
         public AWSTestDatabaseDBContext(DbContextOptions<AWSTestDatabaseDBContext> options) : base(options)
@@ -27,10 +28,15 @@ namespace testapicore31.Models
         //}
     }
 
-    public class UserStatus
+    public class IdDescriptionEntity
     {
         public int Id { get; set; }
         public string Description { get; set; }
+    }
+
+    public class UserStatus : IdDescriptionEntity
+    {
+        //
     }
 
     public class User
@@ -41,11 +47,17 @@ namespace testapicore31.Models
         public UserStatus UserStatus { get; set; }
     }
 
+    public class MedicalPlan : IdDescriptionEntity
+    {
+        //
+    }
+
     public class Pacient
     {
         public int Id { get; set; }
         public string FullName { get; set; }
         public string NationalId { get; set; }
+        public MedicalPlan MedicalPlan { get; set; }
     }
 
     public class Appointment

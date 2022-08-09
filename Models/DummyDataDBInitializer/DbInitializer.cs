@@ -28,6 +28,20 @@ namespace testapicore31.Models.DummyDataDBInitializer
             foreach (UserStatus u in userStatuses)
                 context.UserStatuses.Add(u);
 
+
+            var medicalPlans = new MedicalPlan[]
+            {
+                new MedicalPlan{ Description="No Posee" },
+                new MedicalPlan{ Description="PAMI" },
+                new MedicalPlan{ Description="OSDE 210" },
+                new MedicalPlan{ Description="OSDE 310" },
+                new MedicalPlan{ Description="OSDE 410" },
+                new MedicalPlan{ Description="Swiss Medical" },
+            };
+
+            foreach (MedicalPlan u in medicalPlans)
+                context.MedicalPlans.Add(u);
+
             var users = new User[]
             {
                 new User{ /*Id=1,*/ FullName="Cosme Fulanito", Email="Cosme.Fulanito@user.com", UserStatus =userStatuses.Single(x => x.Id==1) },
