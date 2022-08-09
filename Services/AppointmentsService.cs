@@ -10,7 +10,7 @@ namespace testapicore31.Services
     {
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
-        void CompleteById(int id);
+        void Checkin(int id, int appointmentStatusId);
         Appointment New(Appointment appointment);
         IEnumerable<Appointment> GetByUserId(int id);
     }
@@ -18,12 +18,14 @@ namespace testapicore31.Services
     public class AppointmentsService : IAppointmentsService
     {
         private readonly ILogger<AppointmentsService> _logger;
-        private readonly AWSTestDatabaseDBContext _dbContext;
+        private readonly IAppointmentsStatusService _appointmentsStatusService;
+        private readonly AppDBContext _dbContext;
 
-        public AppointmentsService(AWSTestDatabaseDBContext dbContext, ILogger<AppointmentsService> logger)
+        public AppointmentsService(AppDBContext dbContext, IAppointmentsStatusService appointmentsStatusService, ILogger<AppointmentsService> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _appointmentsStatusService = appointmentsStatusService;
         }
 
         public IEnumerable<Appointment> GetAll()
@@ -32,16 +34,15 @@ namespace testapicore31.Services
 
             return _dbContext.Appointments
                 .Include(i => i.User)
-                .Include(i => i.Pacient);
+                .Include(i => i.Pacient)
+                .Include(i => i.AppointmentStatus);
         }
 
         public Appointment GetById(int id)
         {
             _logger.LogInformation("reading appointment {0}", id);
 
-            return _dbContext.Appointments
-                .Include(i => i.User)
-                .Include(i => i.Pacient)
+            return GetAll()
                 .SingleOrDefault(i => i.Id == id);
         }
 
@@ -49,9 +50,7 @@ namespace testapicore31.Services
         {
             _logger.LogInformation("reading appointment for user {0}", id);
 
-            return _dbContext.Appointments
-                .Include(i => i.User)
-                .Include(i => i.Pacient)
+            return GetAll()
                 .Where(i => i.User.Id == id);
         }
 
@@ -65,11 +64,12 @@ namespace testapicore31.Services
             return newAppointment.Entity;
         }
 
-        public void CompleteById(int id)
+        public void Checkin(int id, int appointmentStatusId)
         {
-            _logger.LogInformation("completing appointment {0}", id);
+            _logger.LogInformation("updating appointment {0} with status {1}", id, appointmentStatusId);
 
-            GetById(id).Confirmed = true;
+            var appointmentStatus = _appointmentsStatusService.GetById(appointmentStatusId);
+            GetById(id).AppointmentStatus = appointmentStatus;
             _dbContext.SaveChanges();
         }
     }

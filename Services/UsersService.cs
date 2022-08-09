@@ -15,9 +15,9 @@ namespace testapicore31.Services
     public class UsersService : IUsersService
     {
         private readonly ILogger<UsersService> _logger;
-        private readonly AWSTestDatabaseDBContext _dbContext;
+        private readonly AppDBContext _dbContext;
 
-        public UsersService(AWSTestDatabaseDBContext dbContext, ILogger<UsersService> logger)
+        public UsersService(AppDBContext dbContext, ILogger<UsersService> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -35,8 +35,7 @@ namespace testapicore31.Services
         {
             _logger.LogInformation("reading user {0}", id);
 
-            return _dbContext.Users
-                .Include(i => i.UserStatus)
+            return GetAll()
                 .SingleOrDefault(i => i.Id == id);
         }
 

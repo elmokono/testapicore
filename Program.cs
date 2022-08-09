@@ -21,7 +21,7 @@ namespace testapicore31
             var services = scope.ServiceProvider;
             try
             {
-                var context = services.GetRequiredService<Models.AWSTestDatabaseDBContext>();
+                var context = services.GetRequiredService<Models.AppDBContext>();
                 Models.DummyDataDBInitializer.DbInitializer.Initialize(context);
             }
             catch (Exception ex)

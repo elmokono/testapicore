@@ -4,15 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace testapicore31.Models
 {
-    public class AWSTestDatabaseDBContext : DbContext
+    public class AppDBContext : DbContext
     {
         public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Pacient> Pacients { get; set; }
         public DbSet<MedicalPlan> MedicalPlans { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentStatus> AppointmentStatuses { get; set; }
 
-        public AWSTestDatabaseDBContext(DbContextOptions<AWSTestDatabaseDBContext> options) : base(options)
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
         }
 
@@ -52,6 +53,11 @@ namespace testapicore31.Models
         //
     }
 
+    public class AppointmentStatus : IdDescriptionEntity
+    {
+        //
+    }
+
     public class Pacient
     {
         public int Id { get; set; }
@@ -67,6 +73,6 @@ namespace testapicore31.Models
         public Pacient Pacient { get; set; }
         [Column(TypeName = "timestamp")]
         public DateTime When { get; set; }
-        public bool Confirmed { get; set; }
+        public AppointmentStatus AppointmentStatus { get; set; }
     }
 }

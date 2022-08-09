@@ -65,12 +65,12 @@ namespace testapicore31.Controllers
         }
 
         // PUT api/<AppointmentsController>/complete/5
-        [HttpPut("complete/{id}")]
-        public ActionResult<Models.Appointment> Complete(int id)
+        [HttpPut("checkin/{id}/{appointmentStatusId}")]
+        public ActionResult<Models.Appointment> Checkin(int id, int appointmentStatusId)
         {
             try
             {
-                _appointmentsService.CompleteById(id);
+                _appointmentsService.Checkin(id, appointmentStatusId);
                 return Get(id);
             }
             catch (System.Exception)

@@ -5,7 +5,7 @@ namespace testapicore31.Models.DummyDataDBInitializer
 {
     public class DbInitializer
     {
-        public static void Initialize(AWSTestDatabaseDBContext context)
+        public static void Initialize(AppDBContext context)
         {
             context.Database.EnsureDeleted();
 
@@ -27,6 +27,16 @@ namespace testapicore31.Models.DummyDataDBInitializer
 
             foreach (UserStatus u in userStatuses)
                 context.UserStatuses.Add(u);
+
+            var appointmentStatuses = new AppointmentStatus[]
+            {
+                new AppointmentStatus{ Description="Presente" },
+                new AppointmentStatus{ Description="Falta c/aviso" },
+                new AppointmentStatus{ Description="Falta s/aviso" },
+            };
+
+            foreach (AppointmentStatus u in appointmentStatuses)
+                context.AppointmentStatuses.Add(u);
 
 
             var medicalPlans = new MedicalPlan[]
@@ -66,10 +76,10 @@ namespace testapicore31.Models.DummyDataDBInitializer
 
             var appointments = new Appointment[]
             {
-                new Appointment{ /*Id=10,*/ Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=false },
-                new Appointment{ /*Id=20,*/ Pacient=pacients[1], User=users[1], When=DateTime.Now, Confirmed=true },
-                new Appointment{ /*Id=30,*/ Pacient=pacients[2], User=users[1], When=DateTime.Now, Confirmed=false },
-                new Appointment{ /*Id=40,*/ Pacient=pacients[0], User=users[0], When=DateTime.Now, Confirmed=true },
+                new Appointment{ /*Id=10,*/ Pacient=pacients[0], User=users[0], When=DateTime.Now, AppointmentStatus=appointmentStatuses[0] },
+                new Appointment{ /*Id=20,*/ Pacient=pacients[1], User=users[1], When=DateTime.Now, AppointmentStatus=appointmentStatuses[1] },
+                new Appointment{ /*Id=30,*/ Pacient=pacients[2], User=users[1], When=DateTime.Now, AppointmentStatus=appointmentStatuses[2] },
+                new Appointment{ /*Id=40,*/ Pacient=pacients[0], User=users[0], When=DateTime.Now, AppointmentStatus=appointmentStatuses[0] },
             };
 
             foreach (Appointment u in appointments)

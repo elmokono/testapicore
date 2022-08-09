@@ -16,9 +16,9 @@ namespace testapicore31.Services
     public class PacientsService : IPacientsService
     {
         private readonly ILogger<PacientsService> _logger;
-        private readonly AWSTestDatabaseDBContext _dbContext;
+        private readonly AppDBContext _dbContext;
 
-        public PacientsService(AWSTestDatabaseDBContext dbContext, ILogger<PacientsService> logger)
+        public PacientsService(AppDBContext dbContext, ILogger<PacientsService> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -27,16 +27,14 @@ namespace testapicore31.Services
         public IEnumerable<Pacient> GetAll()
         {
             _logger.LogInformation("reading all Pacients");
-
-            return _dbContext.Pacients;
+            return _dbContext.Pacients
+                .Include("MedicalPlan");
         }
 
         public Pacient GetById(int id)
         {
             _logger.LogInformation("reading Pacient {0}", id);
-
-            return _dbContext.Pacients
-                .SingleOrDefault(i => i.Id == id);
+            return GetAll().SingleOrDefault(i => i.Id == id);
         }
 
         public Pacient New(Pacient pacient)
