@@ -8,10 +8,11 @@ export const AppRouter = () => {
             <Routes>
 
                 {/* anonymous */}
-                {/* <Route path='/login' element={ } /> */}
+                <Route path='/login' element={ <><h1>LOGIN SCREEN</h1></> } />
 
                 {/* protected */}
                 <Route path='/*' element={<PrivateRoutes />} />
+                
             </Routes>
         </BrowserRouter>
     )
