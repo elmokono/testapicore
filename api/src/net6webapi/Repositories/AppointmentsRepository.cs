@@ -8,11 +8,11 @@ namespace net6webapi.Repositories
 {
     public interface IAppointmentsRepository
     {
-        IEnumerable<Appointment> GetAll();
-        Appointment GetById(int id);
+        Task<IEnumerable<Appointment>> GetAll();
+        Task<Appointment> GetById(int id);
         void Checkin(int id, int appointmentStatusId);
         Appointment New(Appointment appointment);
-        IEnumerable<Appointment> GetByUserId(int id);
+        Task<IEnumerable<Appointment>> GetByUserId(int id);
     }
 
     public class AppointmentsRepository : IAppointmentsRepository
@@ -21,37 +21,41 @@ namespace net6webapi.Repositories
         private readonly IAppointmentsStatusRepository _appointmentsStatusService;
         private readonly AppDBContext _dbContext;
 
+        private readonly IQueryable<Appointment> _appointments;
+
         public AppointmentsRepository(AppDBContext dbContext, IAppointmentsStatusRepository appointmentsStatusService, ILogger<AppointmentsRepository> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
             _appointmentsStatusService = appointmentsStatusService;
-        }
 
-        public IEnumerable<Appointment> GetAll()
-        {
-            _logger.LogInformation("reading all appointments");
-
-            return _dbContext.Appointments
+            _appointments = _dbContext.Appointments
                 .Include(i => i.User)
                 .Include(i => i.Pacient.MedicalPlan)
                 .Include(i => i.AppointmentStatus);
         }
 
-        public Appointment GetById(int id)
+        public async Task<IEnumerable<Appointment>> GetAll()
         {
-            _logger.LogInformation("reading appointment {0}", id);
+            _logger.LogInformation("reading all appointments");
 
-            return GetAll()
-                .SingleOrDefault(i => i.Id == id);
+            return await _appointments.ToListAsync();
         }
 
-        public IEnumerable<Appointment> GetByUserId(int id)
+        public async Task<Appointment> GetById(int id)
         {
-            _logger.LogInformation("reading appointment for user {0}", id);
+            _logger.LogInformation("reading appointment {id}", id);
 
-            return GetAll()
-                .Where(i => i.User.Id == id);
+            return await _appointments.SingleAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<Appointment>> GetByUserId(int id)
+        {
+            _logger.LogInformation("reading appointment for user {id}", id);
+
+            var allAppointments = await GetAll();
+
+            return await _appointments.Where(i => i.User.Id == id).ToListAsync();
         }
 
         public Appointment New(Appointment appointment)
@@ -64,12 +68,13 @@ namespace net6webapi.Repositories
             return newAppointment.Entity;
         }
 
-        public void Checkin(int id, int appointmentStatusId)
+        public async void Checkin(int id, int appointmentStatusId)
         {
-            _logger.LogInformation("updating appointment {0} with status {1}", id, appointmentStatusId);
+            _logger.LogInformation("updating appointment {id} with status {appointmentStatusId}", id, appointmentStatusId);
 
             var appointmentStatus = _appointmentsStatusService.GetById(appointmentStatusId);
-            GetById(id).AppointmentStatus = appointmentStatus;
+            var appointment = await GetById(id);
+            appointment.AppointmentStatus = appointmentStatus;
             _dbContext.SaveChanges();
         }
     }

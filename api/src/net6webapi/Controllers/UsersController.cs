@@ -27,7 +27,7 @@ namespace net6webapi.Controllers
             {
                 return _usersService.GetAll();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read users");
                 return new List<Models.User>();
@@ -42,7 +42,7 @@ namespace net6webapi.Controllers
             {
                 return _usersService.GetById(id);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read user {0}", id);
                 return NotFound();

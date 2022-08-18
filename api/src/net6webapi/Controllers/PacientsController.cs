@@ -27,7 +27,7 @@ namespace net6webapi.Controllers
             {
                 return _pacientsService.GetAll();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read Pacients");
                 return new List<Models.Pacient>();
@@ -42,7 +42,7 @@ namespace net6webapi.Controllers
             {
                 return _pacientsService.GetById(id);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read Pacient {0}", id);
                 return NotFound();
@@ -57,7 +57,7 @@ namespace net6webapi.Controllers
             {
                 return _pacientsService.New(value);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot create Pacient");
                 throw;
