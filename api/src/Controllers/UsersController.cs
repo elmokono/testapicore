@@ -11,9 +11,9 @@ namespace testapicore31.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private readonly Services.IUsersService _usersService;
+        private readonly Repositories.IUsersRepository _usersService;
 
-        public UsersController(Services.IUsersService usersService, ILogger<UsersController> logger)
+        public UsersController(Repositories.IUsersRepository usersService, ILogger<UsersController> logger)
         {
             _logger = logger;
             _usersService = usersService;

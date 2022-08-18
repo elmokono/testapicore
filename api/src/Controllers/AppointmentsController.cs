@@ -11,9 +11,9 @@ namespace testapicore31.Controllers
     public class AppointmentsController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private readonly Services.IAppointmentsService _appointmentsService;
+        private readonly Repositories.IAppointmentsRepository _appointmentsService;
 
-        public AppointmentsController(Services.IAppointmentsService appointmentsService, ILogger<UsersController> logger)
+        public AppointmentsController(Repositories.IAppointmentsRepository appointmentsService, ILogger<UsersController> logger)
         {
             _logger = logger;
             _appointmentsService = appointmentsService;

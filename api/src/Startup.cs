@@ -26,10 +26,10 @@ namespace testapicore31
                 o => o.UseNodaTime())
             );
 
-            services.AddTransient<Services.IAppointmentsStatusService, Services.AppointmentsStatusService>();
-            services.AddTransient<Services.IAppointmentsService, Services.AppointmentsService>();
-            services.AddTransient<Services.IUsersService, Services.UsersService>();
-            services.AddTransient<Services.IPacientsService, Services.PacientsService>();
+            services.AddTransient<Repositories.IAppointmentsStatusRepository, Repositories.AppointmentsStatusRepository>();
+            services.AddTransient<Repositories.IAppointmentsRepository, Repositories.AppointmentsRepository>();
+            services.AddTransient<Repositories.IUsersRepository, Repositories.UsersRepository>();
+            services.AddTransient<Repositories.IPacientsRepository, Repositories.PacientsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using testapicore31.Models;
 
-namespace testapicore31.Services
+namespace testapicore31.Repositories
 {
-    public interface IAppointmentsService
+    public interface IAppointmentsRepository
     {
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
@@ -15,13 +15,13 @@ namespace testapicore31.Services
         IEnumerable<Appointment> GetByUserId(int id);
     }
 
-    public class AppointmentsService : IAppointmentsService
+    public class AppointmentsRepository : IAppointmentsRepository
     {
-        private readonly ILogger<AppointmentsService> _logger;
-        private readonly IAppointmentsStatusService _appointmentsStatusService;
+        private readonly ILogger<AppointmentsRepository> _logger;
+        private readonly IAppointmentsStatusRepository _appointmentsStatusService;
         private readonly AppDBContext _dbContext;
 
-        public AppointmentsService(AppDBContext dbContext, IAppointmentsStatusService appointmentsStatusService, ILogger<AppointmentsService> logger)
+        public AppointmentsRepository(AppDBContext dbContext, IAppointmentsStatusRepository appointmentsStatusService, ILogger<AppointmentsRepository> logger)
         {
             _logger = logger;
             _dbContext = dbContext;

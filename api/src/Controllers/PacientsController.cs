@@ -11,9 +11,9 @@ namespace testapicore31.Controllers
     public class PacientsController : ControllerBase
     {
         private readonly ILogger<PacientsController> _logger;
-        private readonly Services.IPacientsService _pacientsService;
+        private readonly Repositories.IPacientsRepository _pacientsService;
 
-        public PacientsController(Services.IPacientsService pacientsService, ILogger<PacientsController> logger)
+        public PacientsController(Repositories.IPacientsRepository pacientsService, ILogger<PacientsController> logger)
         {
             _logger = logger;
             _pacientsService = pacientsService;

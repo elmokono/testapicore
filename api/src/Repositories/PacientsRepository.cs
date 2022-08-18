@@ -4,21 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using testapicore31.Models;
 
-namespace testapicore31.Services
+namespace testapicore31.Repositories
 {
-    public interface IPacientsService
+    public interface IPacientsRepository
     {
         IEnumerable<Pacient> GetAll();
         Pacient GetById(int id);
         Pacient New(Pacient appointment);
     }
 
-    public class PacientsService : IPacientsService
+    public class PacientsRepository : IPacientsRepository
     {
-        private readonly ILogger<PacientsService> _logger;
+        private readonly ILogger<PacientsRepository> _logger;
         private readonly AppDBContext _dbContext;
 
-        public PacientsService(AppDBContext dbContext, ILogger<PacientsService> logger)
+        public PacientsRepository(AppDBContext dbContext, ILogger<PacientsRepository> logger)
         {
             _logger = logger;
             _dbContext = dbContext;

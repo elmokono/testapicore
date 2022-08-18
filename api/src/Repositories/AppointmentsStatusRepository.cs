@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using testapicore31.Models;
 
-namespace testapicore31.Services
+namespace testapicore31.Repositories
 {
-    public interface IAppointmentsStatusService
+    public interface IAppointmentsStatusRepository
     {
         IEnumerable<AppointmentStatus> GetAll();
         AppointmentStatus GetById(int id);
     }
 
-    public class AppointmentsStatusService : IAppointmentsStatusService
+    public class AppointmentsStatusRepository : IAppointmentsStatusRepository
     {
-        private readonly ILogger<AppointmentsService> _logger;
+        private readonly ILogger<AppointmentsRepository> _logger;
         private readonly AppDBContext _dbContext;
 
-        public AppointmentsStatusService(AppDBContext dbContext, ILogger<AppointmentsService> logger)
+        public AppointmentsStatusRepository(AppDBContext dbContext, ILogger<AppointmentsRepository> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
