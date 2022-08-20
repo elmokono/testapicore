@@ -8,35 +8,35 @@ namespace net6webapi.Repositories
 {
     public interface IUsersRepository
     {
-        IEnumerable<User> GetAll();
-        User GetById(int id);
+        Task<IEnumerable<User>> GetAll();
+        Task<User?> GetById(int id);
     }
 
     public class UsersRepository : IUsersRepository
     {
         private readonly ILogger<UsersRepository> _logger;
         private readonly AppDBContext _dbContext;
+        private readonly DbSet<User> _users;
 
         public UsersRepository(AppDBContext dbContext, ILogger<UsersRepository> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _users = _dbContext.Users;
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
             _logger.LogInformation("reading all users");
 
-            return _dbContext.Users
-                .Include(i => i.UserStatus);
+            return await _users.Include(i => i.UserStatus).ToListAsync();
         }
 
-        public User GetById(int id)
+        public async Task<User?> GetById(int id)
         {
-            _logger.LogInformation("reading user {0}", id);
+            _logger.LogInformation("reading user {id}", id);
 
-            return GetAll()
-                .SingleOrDefault(i => i.Id == id);
+            return await _users.Include(i => i.UserStatus).SingleOrDefaultAsync(i => i.Id == id);
         }
 
     }

@@ -8,34 +8,35 @@ namespace net6webapi.Repositories
 {
     public interface IAppointmentsStatusRepository
     {
-        IEnumerable<AppointmentStatus> GetAll();
-        AppointmentStatus GetById(int id);
+        Task<IEnumerable<AppointmentStatus>> GetAll();
+        Task<AppointmentStatus?> GetById(int id);
     }
 
     public class AppointmentsStatusRepository : IAppointmentsStatusRepository
     {
         private readonly ILogger<AppointmentsRepository> _logger;
         private readonly AppDBContext _dbContext;
+        private readonly DbSet<AppointmentStatus> _appointmentStatuses;
 
         public AppointmentsStatusRepository(AppDBContext dbContext, ILogger<AppointmentsRepository> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _appointmentStatuses = _dbContext.AppointmentStatuses;
         }
 
-        public IEnumerable<AppointmentStatus> GetAll()
+        public async Task<IEnumerable<AppointmentStatus>> GetAll()
         {
             _logger.LogInformation("reading all appointment status");
 
-            return _dbContext.AppointmentStatuses;
+            return await _appointmentStatuses.ToListAsync();
         }
 
-        public AppointmentStatus GetById(int id)
+        public async Task<AppointmentStatus?> GetById(int id)
         {
-            _logger.LogInformation("reading appointment status {0}", id);
-
-            return GetAll()
-                .SingleOrDefault(i => i.Id == id);
+            _logger.LogInformation("reading appointment status {id}", id);
+            
+            return await _appointmentStatuses.FindAsync(id);
         }
     }
 }

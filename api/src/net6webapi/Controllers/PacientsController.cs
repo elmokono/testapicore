@@ -21,13 +21,13 @@ namespace net6webapi.Controllers
 
         // GET: api/<PacientsController>
         [HttpGet]
-        public IEnumerable<Models.Pacient> Get()
+        public async Task<IEnumerable<Models.Pacient>> Get()
         {
             try
             {
-                return _pacientsService.GetAll();
+                return await _pacientsService.GetAll();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read Pacients");
                 return new List<Models.Pacient>();
@@ -36,13 +36,16 @@ namespace net6webapi.Controllers
 
         // GET api/<PacientsController>/5
         [HttpGet("{id}")]
-        public ActionResult<Models.Pacient> Get(int id)
+        public async Task<ActionResult<Models.Pacient>> Get(int id)
         {
             try
             {
-                return _pacientsService.GetById(id);
+                var pacient = await _pacientsService.GetById(id);
+                if (pacient == null) return NotFound();
+
+                return pacient;
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read Pacient {0}", id);
                 return NotFound();
@@ -57,7 +60,7 @@ namespace net6webapi.Controllers
             {
                 return _pacientsService.New(value);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot create Pacient");
                 throw;

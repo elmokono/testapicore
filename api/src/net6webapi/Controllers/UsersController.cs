@@ -21,13 +21,13 @@ namespace net6webapi.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<Models.User> Get()
+        public async Task<IEnumerable<Models.User>> Get()
         {
             try
             {
-                return _usersService.GetAll();
+                return await _usersService.GetAll();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read users");
                 return new List<Models.User>();
@@ -36,13 +36,16 @@ namespace net6webapi.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<Models.User> Get(int id)
+        public async Task<ActionResult<Models.User>> Get(int id)
         {
             try
             {
-                return _usersService.GetById(id);
+                var user = await _usersService.GetById(id);
+                if (user == null) return NotFound();
+
+                return user;
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read user {0}", id);
                 return NotFound();

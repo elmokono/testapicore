@@ -21,13 +21,13 @@ namespace net6webapi.Controllers
 
         // GET: api/<AppointmentsController>
         [HttpGet]
-        public IEnumerable<Models.Appointment> Get()
+        public async Task<IEnumerable<Models.Appointment>> Get()
         {
             try
             {
-                return _appointmentsService.GetAll();
+                return await _appointmentsService.GetAll();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot read Appointments");
                 return new List<Models.Appointment>();
@@ -36,46 +36,46 @@ namespace net6webapi.Controllers
 
         // GET api/<AppointmentsController>/5
         [HttpGet("{id}")]
-        public ActionResult<Models.Appointment> Get(int id)
+        public async Task<ActionResult<Models.Appointment>> Get(int id)
         {
             try
             {
-                return _appointmentsService.GetById(id);
+                return await _appointmentsService.GetById(id);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
-                _logger.Log(LogLevel.Error, "Cannot read Appointment {0}", id);
+                _logger.Log(LogLevel.Error, "Cannot read Appointment {id}", id);
                 return NotFound();
             }
         }
 
         // GET api/<AppointmentsController>/5
         [HttpGet("byuser/{id}")]
-        public IEnumerable<Models.Appointment> GetByUser(int id)
+        public async Task<IEnumerable<Models.Appointment>> GetByUser(int id)
         {
             try
             {
-                return _appointmentsService.GetByUserId(id);
+                return await _appointmentsService.GetByUserId(id);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
-                _logger.Log(LogLevel.Error, "Cannot read Appointment for user {0}", id);
+                _logger.Log(LogLevel.Error, "Cannot read Appointment for user {id}", id);
                 return new List<Models.Appointment>();
             }
         }
 
         // PUT api/<AppointmentsController>/complete/5
         [HttpPut("checkin/{id}/{appointmentStatusId}")]
-        public ActionResult<Models.Appointment> Checkin(int id, int appointmentStatusId)
+        public async Task<ActionResult<Models.Appointment>> Checkin(int id, int appointmentStatusId)
         {
             try
             {
                 _appointmentsService.Checkin(id, appointmentStatusId);
-                return Get(id);
+                return await Get(id);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
-                _logger.Log(LogLevel.Error, "Cannot complete Appointment {0}", id);
+                _logger.Log(LogLevel.Error, "Cannot complete Appointment {id}", id);
                 throw;
             }
         }
@@ -88,7 +88,7 @@ namespace net6webapi.Controllers
             {                
                 return _appointmentsService.New(value);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _logger.Log(LogLevel.Error, "Cannot create Appointment");
                 throw;
