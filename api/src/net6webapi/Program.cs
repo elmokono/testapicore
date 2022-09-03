@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using net6webapi.Models;
+using net6webapi.Models.DummyDataDBInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
